@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--activemq的工厂-->
+    <bean id="targetFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+        <property name="userName" value="season"/>
+        <property name="password" value="123456"/>
+    </bean>
+    <!--spring提供的工厂-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <!--把activemq的工厂传给spring-->
+        <property name="targetConnectionFactory" ref="targetFactory"/>
+    </bean>
+    <!--spring提供的模板类-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <!--需要spring的工厂-->
+        <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+    <!--创建一个队列模式目的地-->
+    <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="queue_test_spring"/>
+    </bean>
+    <!--创建一个主题模式目的地-->
+    <bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="topic_test_spring"/>
+    </bean>
+</beans>

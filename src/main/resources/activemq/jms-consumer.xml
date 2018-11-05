@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+    <!--引入配置-->
+    <import resource="jms.xml"/>
+    <!--监听器bean-->
+    <bean id="consumerMessageListener" class="com.season.jms.consumer.ConsumerMessageListener"/>
+    <!--消息接收容器，spring提供-->
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="queueDestination"/>
+        <property name="messageListener" ref="consumerMessageListener"/>
+    </bean>
+
+</beans>
