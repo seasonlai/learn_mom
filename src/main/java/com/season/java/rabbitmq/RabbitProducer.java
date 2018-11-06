@@ -27,6 +27,7 @@ public class RabbitProducer {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         //创建一个type=“direct"，持久化，非自动删除的交换器
+        //type可以是："fanout","direct","topic",
         channel.exchangeDeclare(EXCHANGE_NAME, "direct", true, false, null);
         //创建一个持久化，非排他的，非自动删除的队列
         channel.queueDeclare(QUEUE_NAME, true, false, false, null);
